@@ -1,0 +1,27 @@
+_id: req_wrk_33367665c2134b58b4ba62ff822e1006ef4d9412
+authentication: {}
+body: {}
+created: 1591895631644
+description: ""
+headers:
+  - disabled: false
+    name: X-client-id
+    value: "{{ xClientId }}"
+  - disabled: false
+    name: X-client-secret
+    value: "{{ xClientSecret }}"
+isPrivate: false
+metaSortKey: -1591895631644
+method: POST
+modified: 1591895631644
+name: caputre order
+parameters: []
+parentId: fld_wrk_33367665c2134b58b4ba62ff822e100696584038
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingFollowRedirects: global
+settingRebuildPath: true
+settingSendCookies: true
+settingStoreCookies: true
+type: Request
+url: "{{ base_url }}/orders/{{ order_id }}/capture"
