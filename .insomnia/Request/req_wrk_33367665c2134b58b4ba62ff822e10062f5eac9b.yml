@@ -1,13 +1,7 @@
-_id: req_wrk_33367665c2134b58b4ba62ff822e1006959e4d84
+_id: req_wrk_33367665c2134b58b4ba62ff822e10062f5eac9b
 authentication: {}
-body:
-  mimeType: application/json
-  text: |-
-    {
-      "type": "checkout",
-      "payment_method_details": null
-    }
-created: 1591895631842
+body: {}
+created: 1591901170960
 description: ""
 headers:
   - disabled: false
@@ -16,13 +10,11 @@ headers:
   - disabled: false
     name: X-client-secret
     value: "{{ xClientSecret }}"
-  - name: Content-Type
-    value: application/json
 isPrivate: false
-metaSortKey: -1591895631842
+metaSortKey: -1591901170960
 method: POST
-modified: 1591901171190
-name: Next action
+modified: 1591901170960
+name: get a refund
 parameters: []
 parentId: fld_wrk_33367665c2134b58b4ba62ff822e100696584038
 settingDisableRenderRequestBody: false
@@ -32,4 +24,4 @@ settingRebuildPath: true
 settingSendCookies: true
 settingStoreCookies: true
 type: Request
-url: "{{ base_url }}/orders/{{ order_id }}/url"
+url: "{{ base_url }}/refunds/{{ refund_id }}"

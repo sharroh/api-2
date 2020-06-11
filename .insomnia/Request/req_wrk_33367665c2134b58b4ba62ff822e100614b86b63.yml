@@ -4,7 +4,9 @@ body:
   mimeType: application/json
   text: |-
     {
-      "message": "Cannot fulfill order"
+      "order_id": 1234,
+      "refund_amount": 10,
+      "refund_note": "Cancelled order"
     }
 created: 1591895631635
 description: ""
@@ -20,7 +22,7 @@ headers:
 isPrivate: false
 metaSortKey: -1591895631636
 method: POST
-modified: 1591895631635
+modified: 1591901171012
 name: create a refund
 parameters: []
 parentId: fld_wrk_33367665c2134b58b4ba62ff822e10069446aedb

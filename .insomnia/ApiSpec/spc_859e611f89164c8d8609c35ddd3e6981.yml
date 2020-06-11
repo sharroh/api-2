@@ -255,7 +255,7 @@ contents: "openapi: 3.0.0
 
   \        - refunds
 
-  \      summary: create a refund
+  \      summary: Create a refund
 
   \      description: Use this api to create a  order refund
 
@@ -316,6 +316,58 @@ contents: "openapi: 3.0.0
   \        \"400\":
 
   \          description: Invalid status value
+
+  \         \ 
+
+  \  /refunds/{refund_id}:
+
+  \    post:
+
+  \      tags:
+
+  \        - refunds
+
+  \      summary: Get a refund
+
+  \      description: Use this get a refund
+
+  \      operationId: getRefunds
+
+  \      security:
+
+  \        - clientID: []
+
+  \        - clientSecret: []
+
+  \      parameters:
+
+  \        - in: path
+
+  \          name: refund_id   # Note the name is the same as in the path
+
+  \          required: true
+
+  \      responses:
+
+  \        \"200\":
+
+  \          description: successful operation
+
+  \          content:
+
+  \            application/json:
+
+  \              schema:
+
+  \                $ref: \"#/components/schemas/Refund\"
+
+  \        \"400\":
+
+  \          description: Invalid status value
+
+  \         \ 
+
+  \          \ 
 
   externalDocs:
 
@@ -659,10 +711,6 @@ contents: "openapi: 3.0.0
 
   \              type: string
 
-  \              minLength: 4
-
-  \              maxLength: 50
-
   \            card_expiry_mm:
 
   \              type: string
@@ -674,10 +722,6 @@ contents: "openapi: 3.0.0
   \            card_cvv:
 
   \              type: string
-
-  \              minLength: 3
-
-  \              maxLength: 4
 
   \    Netbanking:
 
@@ -1048,6 +1092,6 @@ contents: "openapi: 3.0.0
   \                    "
 created: 1591895631562
 fileName: Imported Workspace
-modified: 1591900212338
+modified: 1591901236831
 parentId: wrk_33367665c2134b58b4ba62ff822e1006
 type: ApiSpec
