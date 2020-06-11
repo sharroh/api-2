@@ -26,7 +26,7 @@ contents: "openapi: 3.0.0
 
   \  - name: orders
 
-  \    description: Everything about yourcashfree orders
+  \    description: Everything about Cashfree Orders
 
   \    externalDocs:
 
@@ -36,7 +36,7 @@ contents: "openapi: 3.0.0
 
   \  - name: refunds
 
-  \    description: Everything about yourcashfree order refunds
+  \    description: Everything about Refunds
 
   \    externalDocs:
 
@@ -129,7 +129,7 @@ contents: "openapi: 3.0.0
 
   \              schema:
 
-  \                $ref: \"#/components/schemas/OrderInitiateResponse\"
+  \                $ref: \"#/components/schemas/Order\"
 
   \        \"400\":
 
@@ -293,7 +293,11 @@ contents: "openapi: 3.0.0
 
   \              example:\ 
 
-  \                message: Cannot fulfill order
+  \                order_id: 1234
+
+  \                refund_amount: 10
+
+  \                refund_note: Cancelled order
 
   \      responses:
 
@@ -395,6 +399,10 @@ contents: "openapi: 3.0.0
 
   \          type: string
 
+  \          minLength: 3
+
+  \          maxLength: 50
+
   \          description: The unique id for the order. This should be from
   your system
 
@@ -402,9 +410,12 @@ contents: "openapi: 3.0.0
 
   \        order_amount:
 
-  \          type: string
+  \          type: number
 
-  \          description: Amount to charge the customer for the order
+  \          format: double
+
+  \          description: Amount to charge the customer for the order. Two
+  decimal places. \"17.85\" represents 17 rupees and 85 paise
 
   \          required: true
 
@@ -438,7 +449,10 @@ contents: "openapi: 3.0.0
 
   \          type: string
 
-  \          description: Order note passed by merchant. Can be used to show
+  \          maxLength: 280
+
+  \          description: Order note passed by merchant. Can be used to
+  persist metadata
 
   \    \ 
 
@@ -480,6 +494,8 @@ contents: "openapi: 3.0.0
 
   \            - $ref:  \"#/components/schemas/EMI\"
 
+  \           \ 
+
   \    Order:
 
   \      type: object
@@ -493,6 +509,10 @@ contents: "openapi: 3.0.0
   \          format: int64
 
   \        order_id:
+
+  \          minLength: 3
+
+  \          maxLength: 50
 
   \          type: string
 
@@ -572,6 +592,10 @@ contents: "openapi: 3.0.0
 
   \          type: string
 
+  \          minLength: 20
+
+  \          maxLength: 80
+
   \        payment_attempts:
 
   \          type: object
@@ -595,9 +619,17 @@ contents: "openapi: 3.0.0
 
   \          type: string
 
+  \          description: This url is where the user will return to after
+  completing the payment
+
   \        notify_url:
 
   \          type: string
+
+  \          description: Cashfree will invoke a webook call to this url once
+  the payment is complete. You might receive the webhook even before user
+  returns. There might be multiple webhooks for the same payment, please make
+  your endpoint idempotent
 
   \        payment_modes:
 
@@ -619,9 +651,17 @@ contents: "openapi: 3.0.0
 
   \              type: string
 
+  \              minLength: 13
+
+  \              maxLength: 19
+
   \            card_holder_name:
 
   \              type: string
+
+  \              minLength: 4
+
+  \              maxLength: 50
 
   \            card_expiry_mm:
 
@@ -634,6 +674,10 @@ contents: "openapi: 3.0.0
   \            card_cvv:
 
   \              type: string
+
+  \              minLength: 3
+
+  \              maxLength: 4
 
   \    Netbanking:
 
@@ -835,6 +879,8 @@ contents: "openapi: 3.0.0
 
   \            - USER_DROPPED
 
+  \            - PENDING
+
   \        payment_method_details:
 
   \          oneOf:
@@ -1002,6 +1048,6 @@ contents: "openapi: 3.0.0
   \                    "
 created: 1591895631562
 fileName: Imported Workspace
-modified: 1591895632214
+modified: 1591900212338
 parentId: wrk_33367665c2134b58b4ba62ff822e1006
 type: ApiSpec
