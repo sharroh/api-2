@@ -52,9 +52,9 @@ contents: >-
                   properties:
                     code: 
                       $ref: "#/components/schemas/APICode"
-                    details:
-                      $ref: "#/components/schemas/APIDetails"
                     message:
+                      $ref: "#/components/schemas/APIMessage"
+                    data:
                       $ref: "#/components/schemas/Order"
     /orders/{order_id}/pay:
       post:
@@ -82,9 +82,9 @@ contents: >-
                   properties:
                     code: 
                       $ref: "#/components/schemas/APICode"
-                    details:
-                      $ref: "#/components/schemas/APIDetails"
                     message:
+                      $ref: "#/components/schemas/APIMessage"
+                    data:
                       $ref: "#/components/schemas/PaymentAction"
           "400":
             description: Invalid status value
@@ -122,9 +122,9 @@ contents: >-
                   properties:
                     code: 
                       $ref: "#/components/schemas/APICode"
-                    details:
-                      $ref: "#/components/schemas/APIDetails"
                     message:
+                      $ref: "#/components/schemas/APIMessage"
+                    data:
                       $ref: "#/components/schemas/Order"
           "400":
             description: Invalid status value
@@ -148,7 +148,14 @@ contents: >-
             content:
               application/json:
                 schema:
-                  $ref: "#/components/schemas/Order"
+                  type: object
+                  properties:
+                    code: 
+                      $ref: "#/components/schemas/APICode"
+                    message:
+                      $ref: "#/components/schemas/APIMessage"
+                    data:
+                      $ref: "#/components/schemas/Order"
           "400":
             description: Invalid status value
     /refunds:
@@ -183,7 +190,14 @@ contents: >-
             content:
               application/json:
                 schema:
-                  $ref: "#/components/schemas/Refund"
+                  type: object
+                  properties:
+                    code: 
+                      $ref: "#/components/schemas/APICode"
+                    message:
+                      $ref: "#/components/schemas/APIMessage"
+                    data:
+                      $ref: "#/components/schemas/Refund"
           "400":
             description: Invalid status value
             
@@ -207,7 +221,14 @@ contents: >-
             content:
               application/json:
                 schema:
-                  $ref: "#/components/schemas/Refund"
+                  type: object
+                  properties:
+                    code: 
+                      $ref: "#/components/schemas/APICode"
+                    message:
+                      $ref: "#/components/schemas/APIMessage"
+                    data:
+                      $ref: "#/components/schemas/Refund"
           "400":
             description: Invalid status value
 
@@ -231,7 +252,14 @@ contents: >-
             content: 
               application/json:
                 schema:
-                  $ref: "#/components/schemas/Payment"
+                  type: object
+                  properties:
+                    code: 
+                      $ref: "#/components/schemas/APICode"
+                    message:
+                      $ref: "#/components/schemas/APIMessage"
+                    data:
+                      $ref: "#/components/schemas/Payment"
           "400":
             description: Invalid status value
 
@@ -268,7 +296,9 @@ contents: >-
 
 
 
+
         
+
 
 
              
@@ -457,7 +487,7 @@ contents: >-
             properties:
               bank_code:
                 type: integer
-                format: int32
+                format: int64
       Wallet:
         type: object
         properties:
@@ -466,7 +496,7 @@ contents: >-
             properties:
               wallet_code:
                 type: integer
-                format: int32
+                format: int64
       Paylater:
         type: object
         properties:
@@ -475,7 +505,7 @@ contents: >-
             properties:
               paylater_code:
                 type: integer
-                format: int32
+                format: int64
       EMI:
         type: object
         properties:
@@ -484,10 +514,10 @@ contents: >-
             properties:
               emi_bank_code:
                 type: integer
-                format: int32
+                format: int64
               emi_plan:
                 type: integer
-                format: int32
+                format: int64
       UPI:
         type: object
         properties:
@@ -562,7 +592,7 @@ contents: >-
           order_id:
             type: string
           payment_id:
-            type: int32
+            type: int64
           refund_amount:
             type: number
             format: double
@@ -583,16 +613,16 @@ contents: >-
             type: string
       APICode:
         type: integer
-        format: int32
+        format: int64
         default: 200
-      APIDetails:
+      APIMessage:
         type: string
       PaymentAction:
         type: object
         properties:
           code:
             type: integer
-            format: int32
+            format: int64
             default: 200
           detail:
             type: string
@@ -629,6 +659,6 @@ contents: >-
                       type: string
 created: 1591895631562
 fileName: Imported Workspace
-modified: 1591949025458
+modified: 1591953019713
 parentId: wrk_33367665c2134b58b4ba62ff822e1006
 type: ApiSpec

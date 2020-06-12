@@ -13,7 +13,7 @@ headers:
 isPrivate: false
 metaSortKey: -1591938253085
 method: GET
-modified: 1591945147515
+modified: 1591952471808
 name: Get all payments for an order
 parameters:
   - disabled: false
