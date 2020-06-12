@@ -89,7 +89,7 @@ contents: >-
                     details:
                       $ref: "#/components/schemas/APIDetails"
                     message:
-                      $ref: "#/components/schemas/Order"
+                      $ref: "#/components/schemas/PaymentAction"
           "400":
             description: Invalid status value
     /orders/{order_id}/cancel:
@@ -586,9 +586,49 @@ contents: >-
         format: int32
         default: 200
       APIDetails:
-        type: string 
+        type: string
+      PaymentAction:
+        type: object
+        properties:
+          code:
+            type: integer
+            format: int32
+            default: 200
+          detail:
+            type: string
+          message:
+            type: object
+            properties:
+              url:
+                type: string
+              next_action:
+                type: string
+                enum:
+                   - link
+                   - form
+                   - poll
+                   - image
+              content_type:
+                 type: string
+                 enum:
+                   - application/x-www-form-urlencoded
+                   - application/json
+              method:
+                 type: string
+                 enum:
+                   - get
+                   - post
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    key_name:
+                      type: string
+                    value_name:
+                      type: string
 created: 1591895631562
 fileName: Imported Workspace
-modified: 1591944710964
+modified: 1591945316751
 parentId: wrk_33367665c2134b58b4ba62ff822e1006
 type: ApiSpec
