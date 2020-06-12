@@ -14,24 +14,21 @@ contents: >-
       name: Apache 2.0
       url: http://www.apache.org/licenses/LICENSE-2.0.html
   tags:
-    - name: orders
+    - name: Orders
       description: Everything about Cashfree Orders
       externalDocs:
         description: Find out more
         url: https://cashfree.com
-    - name: payments
+    - name: Payments
       description: Everything about payments on your Orders
       externalDocs:
         description: Find out more
         url: https://cashfree.com
-    - name: refunds
+    - name: Refunds
       description: Everything about Refunds
       externalDocs:
         description: Find out more
         url: https://cashfree.com
-
-        
-
   paths:
     /orders:
       post:
@@ -39,7 +36,7 @@ contents: >-
           - clientID: []
           - clientSecret: []  
         tags:
-          - orders
+          - Orders
         summary: Add a new order
         description: "Use this api to create an order in cashfree"
         operationId: addOrder
@@ -51,12 +48,19 @@ contents: >-
             content:
               application/json:
                 schema:
-                  $ref: "#/components/schemas/OrderCreateResponse"
-    /orders/{order_id}/url:
+                  type: object
+                  properties:
+                    code: 
+                      $ref: "#/components/schemas/APICode"
+                    details:
+                      $ref: "#/components/schemas/APIDetails"
+                    message:
+                      $ref: "#/components/schemas/Order"
+    /orders/{order_id}/pay:
       post:
         tags:
-          - orders
-        summary: Next action
+          - Orders
+        summary: Order Pay Action
         description: Use this api to create order url to accept payment
         operationId: getOrderURL
         security:
@@ -67,20 +71,27 @@ contents: >-
             name: order_id   # Note the name is the same as in the path
             required: true
         requestBody:
-          $ref: "#/components/requestBodies/Integration"
+          $ref: "#/components/requestBodies/CreatePaymentRequest"
         responses:
           "200":
             description: successful operation
             content:
               application/json:
                 schema:
-                  $ref: "#/components/schemas/Order"
+                  type: object
+                  properties:
+                    code: 
+                      $ref: "#/components/schemas/APICode"
+                    details:
+                      $ref: "#/components/schemas/APIDetails"
+                    message:
+                      $ref: "#/components/schemas/PaymentAction"
           "400":
             description: Invalid status value
     /orders/{order_id}/cancel:
       post:
         tags:
-          - orders
+          - Orders
         summary: Cancel Order
         description: Use this api to cancel order with a message
         operationId: cancelOrder
@@ -107,15 +118,22 @@ contents: >-
             content:
               application/json:
                 schema:
-                  $ref: "#/components/schemas/Order"
+                  type: object
+                  properties:
+                    code: 
+                      $ref: "#/components/schemas/APICode"
+                    details:
+                      $ref: "#/components/schemas/APIDetails"
+                    message:
+                      $ref: "#/components/schemas/Order"
           "400":
             description: Invalid status value
     /orders/{order_id}/capture:
       post:
         tags:
-          - orders
-        summary: caputre order
-        description: Use this api to cancel order with a message
+          - Orders
+        summary: Capture order
+        description: Use this api to capture order with a message
         operationId: captureOrder
         security:
           - clientID: []
@@ -136,7 +154,7 @@ contents: >-
     /refunds:
       post:
         tags:
-          - refunds
+          - Refunds
         summary: Create a refund
         description: Use this api to create a  order refund
         operationId: refundOrder
@@ -172,7 +190,7 @@ contents: >-
     /refunds/{refund_id}:
       get:
         tags:
-          - refunds
+          - Refunds
         summary: Get a refund
         description: Use this get a refund
         operationId: getRefunds
@@ -196,7 +214,7 @@ contents: >-
     /payments/{payment_id}:
       get:
         tags:
-          - payments
+          - Payments
         summary: Get payment details for an id
         description: Use this to fetch payment details
         operationId: getPayment
@@ -220,7 +238,7 @@ contents: >-
     /payments/?order={order_id}:
       get:
         tags:
-          - payments
+          - Payments
         summary: Get all payments for an order
         description: Use this to fetch all payments
         operationId: getPaymentsForOrder
@@ -249,7 +267,9 @@ contents: >-
             description: Invalid status value
 
 
+
         
+
 
              
   externalDocs:
@@ -259,8 +279,9 @@ contents: >-
     - url: https://test.cahsfree.com/api/v2.1
     - url: https://api.cahsfree.com/v2.1
   security:
-    - clientID: []
-    - clientSecret: []
+    allOf:
+      - clientID: []
+      - clientSecret: []
   components:
     securitySchemes:
       clientID:
@@ -279,15 +300,19 @@ contents: >-
               $ref: "#/components/schemas/CreateOrderRequest"
         description: Order object that needs to be added to the before making a payment
         required: true
-      Integration:
+      CreatePaymentRequest:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/PaymentRequestDetails"
+              $ref: "#/components/schemas/CreatePaymentRequest"
         description: Order object that needs to be added to the before making a payment.
         required: true
     schemas:
       CreateOrderRequest:
+        required:
+          - order_id
+          - order_amount
+          - order_currency
         type: object
         properties:
           order_id:
@@ -319,7 +344,7 @@ contents: >-
             maxLength: 280
             description: Order note passed by merchant. Can be used to persist metadata
        
-      PaymentRequestDetails:
+      CreatePaymentRequest:
         type: object
         required:
           - mode
@@ -475,17 +500,6 @@ contents: >-
                 type: string
               linked_phone:
                 type: string
-      OrderCreateResponse:
-        type: object
-        properties:
-          code:
-            type: integer
-            format: int32
-            default: 200
-          detail:
-            type: string
-          message:
-            $ref: "#/components/schemas/Order"
       Customer:
         type: object
         properties:
@@ -567,7 +581,13 @@ contents: >-
             format: date-time
           refund_note:
             type: string
-      OrderInitiateResponse:
+      APICode:
+        type: integer
+        format: int32
+        default: 200
+      APIDetails:
+        type: string
+      PaymentAction:
         type: object
         properties:
           code:
@@ -606,9 +626,9 @@ contents: >-
                     key_name:
                       type: string
                     value_name:
-                      type: string    
+                      type: string
 created: 1591895631562
 fileName: Imported Workspace
-modified: 1591938540583
+modified: 1591949025458
 parentId: wrk_33367665c2134b58b4ba62ff822e1006
 type: ApiSpec

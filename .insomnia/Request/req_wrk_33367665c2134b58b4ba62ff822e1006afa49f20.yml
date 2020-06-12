@@ -13,13 +13,13 @@ headers:
 isPrivate: false
 metaSortKey: -1591938253085
 method: GET
-modified: 1591938253085
-name: Get payment details for an id
+modified: 1591945147515
+name: Get all payments for an order
 parameters:
   - disabled: false
     name: order_id
     value: undefined
-parentId: fld_wrk_33367665c2134b58b4ba62ff822e100640c47702
+parentId: fld_wrk_33367665c2134b58b4ba62ff822e100644357ae5
 settingDisableRenderRequestBody: false
 settingEncodeUrl: true
 settingFollowRedirects: global
