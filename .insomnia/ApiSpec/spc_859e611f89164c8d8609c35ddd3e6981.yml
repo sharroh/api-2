@@ -231,6 +231,40 @@ contents: >-
                       $ref: "#/components/schemas/Refund"
           "400":
             description: Invalid status value
+            
+    /refunds/{order_id}:
+      get:
+        tags:
+          - Refunds
+        summary: Get refunds for an order
+        description: Use this get refunds for an order
+        operationId: getRefundsForOrder
+        security:
+          - clientID: []
+          - clientSecret: []
+        parameters:
+          - in: query
+            name: refund_id   # Note the name is the same as in the path
+            required: true
+        responses:
+          "200":
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    code: 
+                      $ref: "#/components/schemas/APICode"
+                    message:
+                      $ref: "#/components/schemas/APIMessage"
+                    data: 
+                      type: array
+                      items: 
+                        $ref: "#/components/schemas/Refund"
+          "400":
+            description: Invalid status value
+            
 
     /payments/{payment_id}:
       get:
@@ -659,6 +693,6 @@ contents: >-
                       type: string
 created: 1591895631562
 fileName: Imported Workspace
-modified: 1591953019713
+modified: 1591954349650
 parentId: wrk_33367665c2134b58b4ba62ff822e1006
 type: ApiSpec
