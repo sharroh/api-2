@@ -1,1097 +1,614 @@
 _id: spc_859e611f89164c8d8609c35ddd3e6981
 contentType: yaml
-contents: "openapi: 3.0.0
+contents: >-
+  openapi: 3.0.0
 
   info:
-
-  \  description: \"Cashfree API v2\"
-
-  \  version: 0.0.1
-
-  \  title: Cashfree API v2
-
-  \  termsOfService: https://cashfree.com/terms/
-
-  \  contact:
-
-  \    email: tech@cashfree.com
-
-  \  license:
-
-  \    name: Apache 2.0
-
-  \    url: http://www.apache.org/licenses/LICENSE-2.0.html
-
+    description: "Cashfree API v2"
+    version: 0.0.1
+    title: Cashfree API v2
+    termsOfService: https://cashfree.com/terms/
+    contact:
+      email: tech@cashfree.com
+    license:
+      name: Apache 2.0
+      url: http://www.apache.org/licenses/LICENSE-2.0.html
   tags:
+    - name: orders
+      description: Everything about Cashfree Orders
+      externalDocs:
+        description: Find out more
+        url: https://cashfree.com
+    - name: payments
+      description: Everything about payments on your Orders
+      externalDocs:
+        description: Find out more
+        url: https://cashfree.com
+    - name: refunds
+      description: Everything about Refunds
+      externalDocs:
+        description: Find out more
+        url: https://cashfree.com
 
-  \  - name: orders
-
-  \    description: Everything about Cashfree Orders
-
-  \    externalDocs:
-
-  \      description: Find out more
-
-  \      url: https://cashfree.com
-
-  \  - name: refunds
-
-  \    description: Everything about Refunds
-
-  \    externalDocs:
-
-  \      description: Find out more
-
-  \      url: https://cashfree.com
-
+        
 
   paths:
-
-  \  /orders:
-
-  \    post:
-
-  \      security:
-
-  \        - clientID: []
-
-  \        - clientSecret: [] \ 
-
-  \      tags:
-
-  \        - orders
-
-  \      summary: Add a new order
-
-  \      description: \"Use this api to create an order in cashfree\"
-
-  \      operationId: addOrder
-
-  \      requestBody:
-
-  \        $ref: \"#/components/requestBodies/CreateOrderRequest\"
-
-  \      responses:
-
-  \        \"200\":
-
-  \          description: successful operation
-
-  \          content:
-
-  \            application/json:
-
-  \              schema:
-
-  \                $ref: \"#/components/schemas/OrderCreateResponse\"
-
-  \  /orders/{order_id}/url:
-
-  \    post:
-
-  \      tags:
-
-  \        - orders
-
-  \      summary: Next action
-
-  \      description: Use this api to create order url to accept payment
-
-  \      operationId: getOrderURL
-
-  \      security:
-
-  \        - clientID: []
-
-  \        - clientSecret: [] \ 
-
-  \      parameters:
-
-  \        - in: path
-
-  \          name: order_id   # Note the name is the same as in the path
-
-  \          required: true
-
-  \      requestBody:
-
-  \        $ref: \"#/components/requestBodies/Integration\"
-
-  \      responses:
-
-  \        \"200\":
-
-  \          description: successful operation
-
-  \          content:
-
-  \            application/json:
-
-  \              schema:
-
-  \                $ref: \"#/components/schemas/Order\"
-
-  \        \"400\":
-
-  \          description: Invalid status value
-
-  \  /orders/{order_id}/cancel:
-
-  \    post:
-
-  \      tags:
-
-  \        - orders
-
-  \      summary: Cancel Order
-
-  \      description: Use this api to cancel order with a message
-
-  \      operationId: cancelOrder
-
-  \      security:
-
-  \        - clientID: []
-
-  \        - clientSecret: [] \ 
-
-  \      parameters:
-
-  \        - in: path
-
-  \          name: order_id   # Note the name is the same as in the path
-
-  \          required: true
-
-  \      requestBody:
-
-  \        content:
-
-  \          application/json:
-
-  \            schema:
-
-  \              type: object
-
-  \              properties:
-
-  \                cancel_reason:
-
-  \                  type: string
-
-  \              example:\ 
-
-  \                message: Cannot fulfill order
-
-  \      responses:
-
-  \        \"200\":
-
-  \          description: successful operation
-
-  \          content:
-
-  \            application/json:
-
-  \              schema:
-
-  \                $ref: \"#/components/schemas/Order\"
-
-  \        \"400\":
-
-  \          description: Invalid status value
-
-  \  /orders/{order_id}/capture:
-
-  \    post:
-
-  \      tags:
-
-  \        - orders
-
-  \      summary: caputre order
-
-  \      description: Use this api to cancel order with a message
-
-  \      operationId: captureOrder
-
-  \      security:
-
-  \        - clientID: []
-
-  \        - clientSecret: [] \ 
-
-  \      parameters:
-
-  \        - in: path
-
-  \          name: order_id   # Note the name is the same as in the path
-
-  \          required: true
-
-  \      responses:
-
-  \        \"200\":
-
-  \          description: successful operation
-
-  \          content:
-
-  \            application/json:
-
-  \              schema:
-
-  \                $ref: \"#/components/schemas/Order\"
-
-  \        \"400\":
-
-  \          description: Invalid status value
-
-  \  /refunds:
-
-  \    post:
-
-  \      tags:
-
-  \        - refunds
-
-  \      summary: Create a refund
-
-  \      description: Use this api to create a  order refund
-
-  \      operationId: refundOrder
-
-  \      security:
-
-  \        - clientID: []
-
-  \        - clientSecret: []\ 
-
-  \      requestBody:
-
-  \        content:
-
-  \          application/json:
-
-  \            schema:
-
-  \              type: object
-
-  \              properties:
-
-  \                order_id:
-
-  \                  type: string
-
-  \                refund_amount:
-
-  \                  type: string
-
-  \                refund_note:
-
-  \                  type: string
-
-  \              example:\ 
-
-  \                order_id: 1234
-
-  \                refund_amount: 10
-
-  \                refund_note: Cancelled order
-
-  \      responses:
-
-  \        \"200\":
-
-  \          description: successful operation
-
-  \          content:
-
-  \            application/json:
-
-  \              schema:
-
-  \                $ref: \"#/components/schemas/Refund\"
-
-  \        \"400\":
-
-  \          description: Invalid status value
-
-  \         \ 
-
-  \  /refunds/{refund_id}:
-
-  \    post:
-
-  \      tags:
-
-  \        - refunds
-
-  \      summary: Get a refund
-
-  \      description: Use this get a refund
-
-  \      operationId: getRefunds
-
-  \      security:
-
-  \        - clientID: []
-
-  \        - clientSecret: []
-
-  \      parameters:
-
-  \        - in: path
-
-  \          name: refund_id   # Note the name is the same as in the path
-
-  \          required: true
-
-  \      responses:
-
-  \        \"200\":
-
-  \          description: successful operation
-
-  \          content:
-
-  \            application/json:
-
-  \              schema:
-
-  \                $ref: \"#/components/schemas/Refund\"
-
-  \        \"400\":
-
-  \          description: Invalid status value
-
-  \         \ 
-
-  \          \ 
-
+    /orders:
+      post:
+        security:
+          - clientID: []
+          - clientSecret: []  
+        tags:
+          - orders
+        summary: Add a new order
+        description: "Use this api to create an order in cashfree"
+        operationId: addOrder
+        requestBody:
+          $ref: "#/components/requestBodies/CreateOrderRequest"
+        responses:
+          "200":
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/OrderCreateResponse"
+    /orders/{order_id}/url:
+      post:
+        tags:
+          - orders
+        summary: Next action
+        description: Use this api to create order url to accept payment
+        operationId: getOrderURL
+        security:
+          - clientID: []
+          - clientSecret: []  
+        parameters:
+          - in: path
+            name: order_id   # Note the name is the same as in the path
+            required: true
+        requestBody:
+          $ref: "#/components/requestBodies/Integration"
+        responses:
+          "200":
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Order"
+          "400":
+            description: Invalid status value
+    /orders/{order_id}/cancel:
+      post:
+        tags:
+          - orders
+        summary: Cancel Order
+        description: Use this api to cancel order with a message
+        operationId: cancelOrder
+        security:
+          - clientID: []
+          - clientSecret: []  
+        parameters:
+          - in: path
+            name: order_id   # Note the name is the same as in the path
+            required: true
+        requestBody:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  cancel_reason:
+                    type: string
+                example: 
+                  message: Cannot fulfill order
+        responses:
+          "200":
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Order"
+          "400":
+            description: Invalid status value
+    /orders/{order_id}/capture:
+      post:
+        tags:
+          - orders
+        summary: caputre order
+        description: Use this api to cancel order with a message
+        operationId: captureOrder
+        security:
+          - clientID: []
+          - clientSecret: []  
+        parameters:
+          - in: path
+            name: order_id   # Note the name is the same as in the path
+            required: true
+        responses:
+          "200":
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Order"
+          "400":
+            description: Invalid status value
+    /refunds:
+      post:
+        tags:
+          - refunds
+        summary: Create a refund
+        description: Use this api to create a  order refund
+        operationId: refundOrder
+        security:
+          - clientID: []
+          - clientSecret: [] 
+        requestBody:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  order_id:
+                    type: string
+                  refund_amount:
+                    type: string
+                  refund_note:
+                    type: string
+                example: 
+                  order_id: 1234
+                  refund_amount: 10
+                  refund_note: Cancelled order
+        responses:
+          "200":
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Refund"
+          "400":
+            description: Invalid status value
+            
+    /refunds/{refund_id}:
+      get:
+        tags:
+          - refunds
+        summary: Get a refund
+        description: Use this get a refund
+        operationId: getRefunds
+        security:
+          - clientID: []
+          - clientSecret: []
+        parameters:
+          - in: path
+            name: refund_id   # Note the name is the same as in the path
+            required: true
+        responses:
+          "200":
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Refund"
+          "400":
+            description: Invalid status value
+
+    /payments/{payment_id}:
+      get:
+        tags:
+          - payments
+        summary: Get payment details for an id
+        description: Use this to fetch payment details
+        operationId: getPayment
+        security: 
+          - clientID: []
+          - clientSecret: []
+        parameters:
+          - in: path
+            name: payment_id
+            required: true
+        responses:
+          "200":
+            description: successful operation
+            content: 
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Payment"
+          "400":
+            description: Invalid status value
+
+    /payments/?order={order_id}:
+      get:
+        tags:
+          - payments
+        summary: Get all payments for an order
+        description: Use this to fetch all payments
+        operationId: getPaymentsForOrder
+        security: 
+          - clientID: []
+          - clientSecret: []
+        parameters:
+          - in: query
+            name: order_id
+            required: true
+        responses:
+          "200":
+            description: successful operation
+            content: 
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    has_more:
+                      type: boolean
+                    data:
+                      type: array
+                      items:
+                        $ref: "#/components/schemas/Payment"                
+          "400":
+            description: Invalid status value
+
+
+        
+
+             
   externalDocs:
-
-  \  description: Find out more about Swagger
-
-  \  url: http://swagger.io
-
+    description: Find out more about Swagger
+    url: http://swagger.io
   servers:
-
-  \  - url: https://test.cahsfree.com/api/v2.1
-
-  \  - url: https://api.cahsfree.com/v2.1
-
+    - url: https://test.cahsfree.com/api/v2.1
+    - url: https://api.cahsfree.com/v2.1
   security:
-
-  \  - clientID: []
-
-  \  - clientSecret: []
-
+    - clientID: []
+    - clientSecret: []
   components:
-
-  \  securitySchemes:
-
-  \    clientID:
-
-  \      type: apiKey
-
-  \      in: header
-
-  \      name:  X-client-id
-
-  \    clientSecret:
-
-  \      type: apiKey
-
-  \      in: header
-
-  \      name:  X-client-secret
-
-  \  requestBodies:
-
-  \    CreateOrderRequest:
-
-  \      content:
-
-  \        application/json:
-
-  \          schema:
-
-  \            $ref: \"#/components/schemas/CreateOrderRequest\"
-
-  \      description: Order object that needs to be added to the before making
-  a payment
-
-  \      required: true
-
-  \    Integration:
-
-  \      content:
-
-  \        application/json:
-
-  \          schema:
-
-  \            $ref: \"#/components/schemas/PaymentRequestDetails\"
-
-  \      description: Order object that needs to be added to the before making
-  a payment.
-
-  \      required: true
-
-  \  schemas:
-
-  \    CreateOrderRequest:
-
-  \      type: object
-
-  \      properties:
-
-  \        order_id:
-
-  \          type: string
-
-  \          minLength: 3
-
-  \          maxLength: 50
-
-  \          description: The unique id for the order. This should be from
-  your system
-
-  \          required: true
-
-  \        order_amount:
-
-  \          type: number
-
-  \          format: double
-
-  \          description: Amount to charge the customer for the order. Two
-  decimal places. \"17.85\" represents 17 rupees and 85 paise
-
-  \          required: true
-
-  \        order_currency:
-
-  \          type: string
-
-  \          description: The currency for the order amount. Eg INR, USD
-
-  \          required: true
-
-  \        customer:
-
-  \          $ref: \"#/components/schemas/Customer\"
-
-  \          required: false
-
-  \        order_meta:
-
-  \          $ref: \"#/components/schemas/OrderMeta\"
-
-  \          required: false
-
-  \        expiry_time:
-
-  \          type: string
-
-  \          format: date-time
-
-  \        order_note:
-
-  \          type: string
-
-  \          maxLength: 280
-
-  \          description: Order note passed by merchant. Can be used to
-  persist metadata
-
-  \    \ 
-
-  \    PaymentRequestDetails:
-
-  \      type: object
-
-  \      required:
-
-  \        - mode
-
-  \      properties:
-
-  \        type:
-
-  \          type: string
-
-  \          enum:\ 
-
-  \            - checkout
-
-  \            - seamless
-
-  \          default: checkout
-
-  \        payment_method_details:
-
-  \          oneOf:
-
-  \            - $ref:  \"#/components/schemas/Card\"
-
-  \            - $ref:  \"#/components/schemas/Netbanking\"
-
-  \            - $ref:  \"#/components/schemas/UPI\"
-
-  \            - $ref:  \"#/components/schemas/Wallet\"
-
-  \            - $ref:  \"#/components/schemas/Paylater\"
-
-  \            - $ref:  \"#/components/schemas/EMI\"
-
-  \           \ 
-
-  \    Order:
-
-  \      type: object
-
-  \      properties:
-
-  \        id:
-
-  \          type: integer
-
-  \          format: int64
-
-  \        order_id:
-
-  \          minLength: 3
-
-  \          maxLength: 50
-
-  \          type: string
-
-  \        order_currency:
-
-  \          type: string
-
-  \          default: \"INR\"
-
-  \        order_amount:
-
-  \          type: number
-
-  \          format: double
-
-  \        captured_amount:
-
-  \          type: number
-
-  \          format: double
-
-  \        expiry_time:
-
-  \          type: string
-
-  \          format: date-time
-
-  \        created_at:
-
-  \          type: string
-
-  \          format: date-time
-
-  \        updated_at:
-
-  \          type: string
-
-  \          format: date-time
-
-  \        customer:
-
-  \          $ref: \"#/components/schemas/Customer\"
-
-  \          required: false
-
-  \        order_meta:
-
-  \          $ref: \"#/components/schemas/OrderMeta\"
-
-  \          required: false
-
-  \        status:
-
-  \          type: string
-
-  \          description: Order Status
-
-  \          enum:
-
-  \            - PENDING_PAYMENT_INFO
-
-  \            - PENDING_CUSTOMER_AUTH
-
-  \            - PENDING_AUTHORIZATION
-
-  \            - PENDING_CAPTURE
-
-  \            - SUCCESSFUL
-
-  \            - CANCELLED
-
-  \            - PROCESSING
-
-  \          default: PENDING_PAYMENT_INFO \ 
-
-  \        order_token:
-
-  \          type: string
-
-  \          minLength: 20
-
-  \          maxLength: 80
-
-  \        payment_attempts:
-
-  \          type: object
-
-  \          properties:
-
-  \            url:
-
-  \              type: string
-
-  \              description: Use this URL to get payment attempts on the
-  order \ 
-
-  \    OrderMeta:
-
-  \      type: object
-
-  \      properties:
-
-  \        return_url:
-
-  \          type: string
-
-  \          description: This url is where the user will return to after
-  completing the payment
-
-  \        notify_url:
-
-  \          type: string
-
-  \          description: Cashfree will invoke a webook call to this url once
-  the payment is complete. You might receive the webhook even before user
-  returns. There might be multiple webhooks for the same payment, please make
-  your endpoint idempotent
-
-  \        payment_modes:
-
-  \          type: string
-
-  \    Card:
-
-  \      type: object
-
-  \      properties:
-
-  \        card:
-
-  \          type: object
-
-  \          properties:
-
-  \            card_number:
-
-  \              type: string
-
-  \              minLength: 13
-
-  \              maxLength: 19
-
-  \            card_holder_name:
-
-  \              type: string
-
-  \            card_expiry_mm:
-
-  \              type: string
-
-  \            card_expiry_yy:
-
-  \              type: string
-
-  \            card_cvv:
-
-  \              type: string
-
-  \    Netbanking:
-
-  \      type: object
-
-  \      properties:
-
-  \        netbanking:
-
-  \          type: object
-
-  \          properties:
-
-  \            bank_code:
-
-  \              type: integer
-
-  \              format: int32
-
-  \    Wallet:
-
-  \      type: object
-
-  \      properties:
-
-  \        wallet:
-
-  \          type: object
-
-  \          properties:
-
-  \            wallet_code:
-
-  \              type: integer
-
-  \              format: int32
-
-  \    Paylater:
-
-  \      type: object
-
-  \      properties:
-
-  \        paylater:
-
-  \          type: object
-
-  \          properties:
-
-  \            paylater_code:
-
-  \              type: integer
-
-  \              format: int32
-
-  \    EMI:
-
-  \      type: object
-
-  \      properties:
-
-  \        emi:
-
-  \          type: object
-
-  \          properties:
-
-  \            emi_bank_code:
-
-  \              type: integer
-
-  \              format: int32
-
-  \            emi_plan:
-
-  \              type: integer
-
-  \              format: int32
-
-  \    UPI:
-
-  \      type: object
-
-  \      properties:
-
-  \        upi:
-
-  \          type: object
-
-  \          properties:
-
-  \            mode:
-
-  \              type: string
-
-  \            vpa:
-
-  \              type: string
-
-  \            linked_phone:
-
-  \              type: string
-
-  \    OrderCreateResponse:
-
-  \      type: object
-
-  \      properties:
-
-  \        code:
-
-  \          type: integer
-
-  \          format: int32
-
-  \          default: 200
-
-  \        detail:
-
-  \          type: string
-
-  \        message:
-
-  \          $ref: \"#/components/schemas/Order\"
-
-  \    Customer:
-
-  \      type: object
-
-  \      properties:
-
-  \        customer_name:
-
-  \          type: string
-
-  \        customer_email:
-
-  \          type: string
-
-  \        customer_phone:
-
-  \          type: string
-
-  \    Payment:
-
-  \      type: object
-
-  \      properties:
-
-  \        id:
-
-  \          type: integer
-
-  \          format: int64
-
-  \        amount:
-
-  \          description: This is the amount for which payment was initiated
-
-  \          type: number
-
-  \          format: double
-
-  \        currency:
-
-  \          description: This is the currency used to initiate payment
-
-  \          type: string
-
-  \        captured_amount:
-
-  \          description: This is the captured amount for which payment\ 
-
-  \          type: number
-
-  \          format: double         \ 
-
-  \        created_at:
-
-  \          type: string
-
-  \          format: date-time
-
-  \        completed_at:
-
-  \          type: string
-
-  \          format: date-time
-
-  \        status:
-
-  \          type: string
-
-  \          enum:
-
-  \            - SUCCESS
-
-  \            - FAILED
-
-  \            - USER_DROPPED
-
-  \            - PENDING
-
-  \        payment_method_details:
-
-  \          oneOf:
-
-  \            - $ref:  \"#/components/schemas/Card\"
-
-  \            - $ref:  \"#/components/schemas/Netbanking\"
-
-  \            - $ref:  \"#/components/schemas/UPI\"
-
-  \            - $ref:  \"#/components/schemas/Wallet\"
-
-  \            - $ref:  \"#/components/schemas/Paylater\"
-
-  \            - $ref:  \"#/components/schemas/EMI\"
-
-  \        refunds:
-
-  \          type: object
-
-  \          properties:
-
-  \            url:
-
-  \              type: string
-
-  \              description: Use this URL to get refunds
-
-  \    Refund:
-
-  \      type: object
-
-  \      properties:
-
-  \        id:
-
-  \          type: integer
-
-  \          format: int64
-
-  \        order_id:
-
-  \          type: string
-
-  \        payment_id:
-
-  \          type: int32
-
-  \        refund_amount:
-
-  \          type: number
-
-  \          format: double
-
-  \        status:
-
-  \          type: string
-
-  \          enum:
-
-  \            - PROCESSING
-
-  \            - SUCCESS
-
-  \            - FAILED
-
-  \          default: PROCESSING
-
-  \        created_at:
-
-  \          type: string
-
-  \          format: date-time
-
-  \        processed_on:
-
-  \          type: string
-
-  \          format: date-time
-
-  \        refund_note:
-
-  \          type: string
-
-  \    OrderInitiateResponse:
-
-  \      type: object
-
-  \      properties:
-
-  \        code:
-
-  \          type: integer
-
-  \          format: int32
-
-  \          default: 200
-
-  \        detail:
-
-  \          type: string
-
-  \        message:
-
-  \          type: object
-
-  \          properties:
-
-  \            url:
-
-  \              type: string
-
-  \            next_action:
-
-  \              type: string
-
-  \              enum:
-
-  \                 - link
-
-  \                 - form
-
-  \                 - poll
-
-  \                 - image
-
-  \            content_type:
-
-  \               type: string
-
-  \               enum:
-
-  \                 - application/x-www-form-urlencoded
-
-  \                 - application/json
-
-  \            method:
-
-  \               type: string
-
-  \               enum:
-
-  \                 - get
-
-  \                 - post
-
-  \            data:
-
-  \              type: array
-
-  \              items:
-
-  \                type: object
-
-  \                properties:
-
-  \                  key_name:
-
-  \                    type: string
-
-  \                  value_name:
-
-  \                    type: string
-
-  \                    "
+    securitySchemes:
+      clientID:
+        type: apiKey
+        in: header
+        name:  X-client-id
+      clientSecret:
+        type: apiKey
+        in: header
+        name:  X-client-secret
+    requestBodies:
+      CreateOrderRequest:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateOrderRequest"
+        description: Order object that needs to be added to the before making a payment
+        required: true
+      Integration:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PaymentRequestDetails"
+        description: Order object that needs to be added to the before making a payment.
+        required: true
+    schemas:
+      CreateOrderRequest:
+        type: object
+        properties:
+          order_id:
+            type: string
+            minLength: 3
+            maxLength: 50
+            description: The unique id for the order. This should be from your system
+            required: true
+          order_amount:
+            type: number
+            format: double
+            description: Amount to charge the customer for the order. Two decimal places. "17.85" represents 17 rupees and 85 paise
+            required: true
+          order_currency:
+            type: string
+            description: The currency for the order amount. Eg INR, USD
+            required: true
+          customer:
+            $ref: "#/components/schemas/Customer"
+            required: false
+          order_meta:
+            $ref: "#/components/schemas/OrderMeta"
+            required: false
+          expiry_time:
+            type: string
+            format: date-time
+          order_note:
+            type: string
+            maxLength: 280
+            description: Order note passed by merchant. Can be used to persist metadata
+       
+      PaymentRequestDetails:
+        type: object
+        required:
+          - mode
+        properties:
+          type:
+            type: string
+            enum: 
+              - checkout
+              - seamless
+            default: checkout
+          payment_method_details:
+            oneOf:
+              - $ref:  "#/components/schemas/Card"
+              - $ref:  "#/components/schemas/Netbanking"
+              - $ref:  "#/components/schemas/UPI"
+              - $ref:  "#/components/schemas/Wallet"
+              - $ref:  "#/components/schemas/Paylater"
+              - $ref:  "#/components/schemas/EMI"
+              
+      Order:
+        type: object
+        properties:
+          id:
+            type: integer
+            format: int64
+          order_id:
+            minLength: 3
+            maxLength: 50
+            type: string
+          order_currency:
+            type: string
+            default: "INR"
+          order_amount:
+            type: number
+            format: double
+          captured_amount:
+            type: number
+            format: double
+          expiry_time:
+            type: string
+            format: date-time
+          created_at:
+            type: string
+            format: date-time
+          updated_at:
+            type: string
+            format: date-time
+          customer:
+            $ref: "#/components/schemas/Customer"
+            required: false
+          order_meta:
+            $ref: "#/components/schemas/OrderMeta"
+            required: false
+          status:
+            type: string
+            description: Order Status
+            enum:
+              - PENDING_PAYMENT_INFO
+              - PENDING_CUSTOMER_AUTH
+              - PENDING_AUTHORIZATION
+              - PENDING_CAPTURE
+              - SUCCESSFUL
+              - CANCELLED
+              - PROCESSING
+            default: PENDING_PAYMENT_INFO  
+          order_token:
+            type: string
+            minLength: 20
+            maxLength: 80
+          payment_attempts:
+            type: object
+            properties:
+              url:
+                type: string
+                description: Use this URL to get payment attempts on the order  
+      OrderMeta:
+        type: object
+        properties:
+          return_url:
+            type: string
+            description: This url is where the user will return to after completing the payment
+          notify_url:
+            type: string
+            description: Cashfree will invoke a webook call to this url once the payment is complete. You might receive the webhook even before user returns. There might be multiple webhooks for the same payment, please make your endpoint idempotent
+          payment_modes:
+            type: string
+      Card:
+        type: object
+        properties:
+          card:
+            type: object
+            properties:
+              card_number:
+                type: string
+                minLength: 13
+                maxLength: 19
+              card_holder_name:
+                type: string
+              card_expiry_mm:
+                type: string
+              card_expiry_yy:
+                type: string
+              card_cvv:
+                type: string
+      Netbanking:
+        type: object
+        properties:
+          netbanking:
+            type: object
+            properties:
+              bank_code:
+                type: integer
+                format: int32
+      Wallet:
+        type: object
+        properties:
+          wallet:
+            type: object
+            properties:
+              wallet_code:
+                type: integer
+                format: int32
+      Paylater:
+        type: object
+        properties:
+          paylater:
+            type: object
+            properties:
+              paylater_code:
+                type: integer
+                format: int32
+      EMI:
+        type: object
+        properties:
+          emi:
+            type: object
+            properties:
+              emi_bank_code:
+                type: integer
+                format: int32
+              emi_plan:
+                type: integer
+                format: int32
+      UPI:
+        type: object
+        properties:
+          upi:
+            type: object
+            properties:
+              mode:
+                type: string
+              vpa:
+                type: string
+              linked_phone:
+                type: string
+      OrderCreateResponse:
+        type: object
+        properties:
+          code:
+            type: integer
+            format: int32
+            default: 200
+          detail:
+            type: string
+          message:
+            $ref: "#/components/schemas/Order"
+      Customer:
+        type: object
+        properties:
+          customer_name:
+            type: string
+          customer_email:
+            type: string
+          customer_phone:
+            type: string
+      Payment:
+        type: object
+        properties:
+          id:
+            type: integer
+            format: int64
+          amount:
+            description: This is the amount for which payment was initiated
+            type: number
+            format: double
+          currency:
+            description: This is the currency used to initiate payment
+            type: string
+          captured_amount:
+            description: This is the captured amount for which payment 
+            type: number
+            format: double          
+          created_at:
+            type: string
+            format: date-time
+          completed_at:
+            type: string
+            format: date-time
+          status:
+            type: string
+            enum:
+              - SUCCESS
+              - FAILED
+              - USER_DROPPED
+              - PENDING
+          payment_method_details:
+            oneOf:
+              - $ref:  "#/components/schemas/Card"
+              - $ref:  "#/components/schemas/Netbanking"
+              - $ref:  "#/components/schemas/UPI"
+              - $ref:  "#/components/schemas/Wallet"
+              - $ref:  "#/components/schemas/Paylater"
+              - $ref:  "#/components/schemas/EMI"
+          refunds:
+            type: object
+            properties:
+              url:
+                type: string
+                description: Use this URL to get refunds
+      Refund:
+        type: object
+        properties:
+          id:
+            type: integer
+            format: int64
+          order_id:
+            type: string
+          payment_id:
+            type: int32
+          refund_amount:
+            type: number
+            format: double
+          status:
+            type: string
+            enum:
+              - PROCESSING
+              - SUCCESS
+              - FAILED
+            default: PROCESSING
+          created_at:
+            type: string
+            format: date-time
+          processed_on:
+            type: string
+            format: date-time
+          refund_note:
+            type: string
+      OrderInitiateResponse:
+        type: object
+        properties:
+          code:
+            type: integer
+            format: int32
+            default: 200
+          detail:
+            type: string
+          message:
+            type: object
+            properties:
+              url:
+                type: string
+              next_action:
+                type: string
+                enum:
+                   - link
+                   - form
+                   - poll
+                   - image
+              content_type:
+                 type: string
+                 enum:
+                   - application/x-www-form-urlencoded
+                   - application/json
+              method:
+                 type: string
+                 enum:
+                   - get
+                   - post
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    key_name:
+                      type: string
+                    value_name:
+                      type: string    
 created: 1591895631562
 fileName: Imported Workspace
-modified: 1591901236831
+modified: 1591938540583
 parentId: wrk_33367665c2134b58b4ba62ff822e1006
 type: ApiSpec
