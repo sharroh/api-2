@@ -29,10 +29,6 @@ contents: >-
       externalDocs:
         description: Find out more
         url: https://cashfree.com
-
-
-        
-
   paths:
     /orders:
       post:
@@ -64,7 +60,7 @@ contents: >-
       post:
         tags:
           - Orders
-        summary: Next action
+        summary: Order Pay Action
         description: Use this api to create order url to accept payment
         operationId: getOrderURL
         security:
@@ -136,8 +132,8 @@ contents: >-
       post:
         tags:
           - Orders
-        summary: caputre order
-        description: Use this api to cancel order with a message
+        summary: Capture order
+        description: Use this api to capture order with a message
         operationId: captureOrder
         security:
           - clientID: []
@@ -313,6 +309,10 @@ contents: >-
         required: true
     schemas:
       CreateOrderRequest:
+        required:
+          - order_id
+          - order_amount
+          - order_currency
         type: object
         properties:
           order_id:
@@ -629,6 +629,6 @@ contents: >-
                       type: string
 created: 1591895631562
 fileName: Imported Workspace
-modified: 1591945316751
+modified: 1591949025458
 parentId: wrk_33367665c2134b58b4ba62ff822e1006
 type: ApiSpec
