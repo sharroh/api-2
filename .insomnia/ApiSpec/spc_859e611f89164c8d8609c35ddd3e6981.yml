@@ -51,7 +51,7 @@ contents: >-
                   type: object
                   properties:
                     code: 
-                      $ref: "#/components/schemas/APICode"
+                      $ref: "#/components/schemas/APICode"                    
                     subCode: 
                       $ref: "#/components/schemas/APISubcode"                    
                     message:
@@ -420,8 +420,6 @@ contents: >-
           order_meta:
             $ref: "#/components/schemas/OrderMeta"
             required: false
-          settlement_meta:
-            $ref: "#/components/schemas/SettlementMeta"
           expiry_time:
             type: string
             format: date-time
@@ -484,6 +482,8 @@ contents: >-
           order_meta:
             $ref: "#/components/schemas/OrderMeta"
             required: false
+          settlement_meta:
+            $ref: "#/components/schemas/SettlementMeta"          
           status:
             type: string
             description: Order Status
@@ -715,20 +715,21 @@ contents: >-
       APICode:
         type: integer
         format: int64
-        default: 200
+       
       APISubcode:
         type: integer
         format: int64
-        default: 200     
+        default: 200 
+        
       APIMessage:
         type: string
+        default: "human readable message"
       PaymentAction:
         type: object
         properties:
           code:
             type: integer
-            format: int64
-            default: 200
+            format: int64          
           detail:
             type: string
           message:
@@ -764,6 +765,6 @@ contents: >-
                       type: string
 created: 1591895631562
 fileName: Imported Workspace
-modified: 1592138551807
+modified: 1592149596432
 parentId: wrk_33367665c2134b58b4ba62ff822e1006
 type: ApiSpec
