@@ -52,6 +52,8 @@ contents: >-
                   properties:
                     code: 
                       $ref: "#/components/schemas/APICode"
+                    subCode: 
+                      $ref: "#/components/schemas/APISubcode"                    
                     message:
                       $ref: "#/components/schemas/APIMessage"
                     data:
@@ -82,10 +84,14 @@ contents: >-
                   properties:
                     code: 
                       $ref: "#/components/schemas/APICode"
+                    subCode: 
+                      $ref: "#/components/schemas/APISubcode"
                     message:
                       $ref: "#/components/schemas/APIMessage"
                     data:
-                      $ref: "#/components/schemas/PaymentAction"
+                      oneOf: 
+                        - $ref: "#/components/schemas/Order"
+                        - $ref: "#/components/schemas/PaymentAction"
           "400":
             description: Invalid status value
     /orders/{order_id}/cancel:
@@ -122,6 +128,8 @@ contents: >-
                   properties:
                     code: 
                       $ref: "#/components/schemas/APICode"
+                    subCode: 
+                      $ref: "#/components/schemas/APISubcode"                    
                     message:
                       $ref: "#/components/schemas/APIMessage"
                     data:
@@ -152,6 +160,8 @@ contents: >-
                   properties:
                     code: 
                       $ref: "#/components/schemas/APICode"
+                    subCode: 
+                      $ref: "#/components/schemas/APISubcode"                    
                     message:
                       $ref: "#/components/schemas/APIMessage"
                     data:
@@ -176,6 +186,8 @@ contents: >-
                 properties:
                   order_id:
                     type: string
+                  refund_id:
+                    type: string
                   refund_amount:
                     type: string
                   refund_note:
@@ -194,6 +206,8 @@ contents: >-
                   properties:
                     code: 
                       $ref: "#/components/schemas/APICode"
+                    subCode: 
+                      $ref: "#/components/schemas/APISubcode"                    
                     message:
                       $ref: "#/components/schemas/APIMessage"
                     data:
@@ -225,6 +239,8 @@ contents: >-
                   properties:
                     code: 
                       $ref: "#/components/schemas/APICode"
+                    subCode: 
+                      $ref: "#/components/schemas/APISubcode"                    
                     message:
                       $ref: "#/components/schemas/APIMessage"
                     data:
@@ -244,7 +260,7 @@ contents: >-
           - clientSecret: []
         parameters:
           - in: query
-            name: refund_id   # Note the name is the same as in the path
+            name: order_id   
             required: true
         responses:
           "200":
@@ -256,6 +272,8 @@ contents: >-
                   properties:
                     code: 
                       $ref: "#/components/schemas/APICode"
+                    subCode: 
+                      $ref: "#/components/schemas/APISubcode"                    
                     message:
                       $ref: "#/components/schemas/APIMessage"
                     data: 
@@ -290,6 +308,8 @@ contents: >-
                   properties:
                     code: 
                       $ref: "#/components/schemas/APICode"
+                    subCode: 
+                      $ref: "#/components/schemas/APISubcode"                    
                     message:
                       $ref: "#/components/schemas/APIMessage"
                     data:
@@ -329,23 +349,23 @@ contents: >-
             description: Invalid status value
 
 
-
-
-        
-
-
-
              
   externalDocs:
     description: Find out more about Swagger
     url: http://swagger.io
+
+    
   servers:
     - url: https://test.cahsfree.com/api/v2.1
     - url: https://api.cahsfree.com/v2.1
+
+    
   security:
     allOf:
       - clientID: []
       - clientSecret: []
+
+      
   components:
     securitySchemes:
       clientID:
@@ -400,6 +420,8 @@ contents: >-
           order_meta:
             $ref: "#/components/schemas/OrderMeta"
             required: false
+          settlement_meta:
+            $ref: "#/components/schemas/SettlementMeta"
           expiry_time:
             type: string
             format: date-time
@@ -411,7 +433,7 @@ contents: >-
       CreatePaymentRequest:
         type: object
         required:
-          - mode
+          - type
         properties:
           type:
             type: string
@@ -431,7 +453,7 @@ contents: >-
       Order:
         type: object
         properties:
-          id:
+          cf_order_id:
             type: integer
             format: int64
           order_id:
@@ -473,6 +495,7 @@ contents: >-
               - SUCCESSFUL
               - CANCELLED
               - PROCESSING
+              - PENDING_RISK_REVIEW
             default: PENDING_PAYMENT_INFO  
           order_token:
             type: string
@@ -495,6 +518,34 @@ contents: >-
             description: Cashfree will invoke a webook call to this url once the payment is complete. You might receive the webhook even before user returns. There might be multiple webhooks for the same payment, please make your endpoint idempotent
           payment_modes:
             type: string
+
+      SettlementMeta:
+        type: object
+        properties:
+          settlement_status:
+            type: string
+            description: Settlement status for this order
+            enum: 
+              - READY_FOR_SETTLEMENT
+              - ON_HOLD
+              - SETTLED
+            default: READY_FOR_SETTLEMENT
+          settlement_id:
+            type: string
+            description: This is the id of the settlement in which this payment was transferred to merchant
+          settlement_date:
+            type: datetime
+            description: Date of settlement
+          service_charge:
+            type: number
+            format: decimal
+          service_tax:
+            type: number
+            format: decimal
+          settled_amount:
+            type: number
+            format: decimal
+            
       Card:
         type: object
         properties:
@@ -513,6 +564,15 @@ contents: >-
                 type: string
               card_cvv:
                 type: string
+              bank_name: 
+                type: string
+                required: false
+              card_scheme:
+                type: string
+                required: false
+              card_type:
+                type: string
+                required: false
       Netbanking:
         type: object
         properties:
@@ -522,6 +582,9 @@ contents: >-
               bank_code:
                 type: integer
                 format: int64
+              bank_name:
+                type: string
+
       Wallet:
         type: object
         properties:
@@ -531,6 +594,8 @@ contents: >-
               wallet_code:
                 type: integer
                 format: int64
+              wallet_name:
+                type: string
       Paylater:
         type: object
         properties:
@@ -620,9 +685,11 @@ contents: >-
       Refund:
         type: object
         properties:
-          id:
+          cf_refund_id:
             type: integer
             format: int64
+          refund_id:
+            type: string          
           order_id:
             type: string
           payment_id:
@@ -649,6 +716,10 @@ contents: >-
         type: integer
         format: int64
         default: 200
+      APISubcode:
+        type: integer
+        format: int64
+        default: 200     
       APIMessage:
         type: string
       PaymentAction:
@@ -693,6 +764,6 @@ contents: >-
                       type: string
 created: 1591895631562
 fileName: Imported Workspace
-modified: 1591954349650
+modified: 1592138188826
 parentId: wrk_33367665c2134b58b4ba62ff822e1006
 type: ApiSpec
