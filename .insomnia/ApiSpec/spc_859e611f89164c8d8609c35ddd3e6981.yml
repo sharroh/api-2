@@ -641,7 +641,7 @@ contents: >-
       Payment:
         type: object
         properties:
-          id:
+          cf_payment_id:
             type: integer
             format: int64
           amount:
@@ -764,6 +764,6 @@ contents: >-
                       type: string
 created: 1591895631562
 fileName: Imported Workspace
-modified: 1592138188826
+modified: 1592138551807
 parentId: wrk_33367665c2134b58b4ba62ff822e1006
 type: ApiSpec
