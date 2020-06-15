@@ -171,6 +171,73 @@ contents: >-
                       $ref: "#/components/schemas/Order"
           "400":
             description: Invalid status value
+            
+    /orders/{order_id}/void:
+      post:
+        tags:
+          - Orders
+        summary: Void order
+        description: Use this api to void an uncaptured order 
+        operationId: voidOrder
+        security:
+          - clientID: []
+          - clientSecret: []  
+        parameters:
+          - in: path
+            name: order_id   # Note the name is the same as in the path
+            required: true
+        responses:
+          "200":
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status: 
+                      $ref: "#/components/schemas/APIStatus"
+                    code: 
+                      $ref: "#/components/schemas/APICode"                    
+                    message:
+                      $ref: "#/components/schemas/APIMessage"
+                    data:
+                      $ref: "#/components/schemas/Order"
+          "400":
+            description: Invalid status value
+            
+    /orders/{order_id}:
+      get:
+        tags:
+          - Orders
+        summary: Get Order
+        description: Use this api to capture order with a message
+        operationId: getOrder
+        security:
+          - clientID: []
+          - clientSecret: []  
+        parameters:
+          - in: path
+            name: order_id   # Note the name is the same as in the path
+            required: true
+        responses:
+          "200":
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status: 
+                      $ref: "#/components/schemas/APIStatus"
+                    code: 
+                      $ref: "#/components/schemas/APICode"                    
+                    message:
+                      $ref: "#/components/schemas/APIMessage"
+                    data:
+                      $ref: "#/components/schemas/Order"
+          "400":
+            description: Invalid status value          
+            
     /refunds:
       post:
         tags:
@@ -353,10 +420,12 @@ contents: >-
 
 
 
+
              
   externalDocs:
     description: Find out more about Swagger
     url: http://swagger.io
+
 
 
     
@@ -365,11 +434,13 @@ contents: >-
     - url: https://api.cahsfree.com/v2.1
 
 
+
     
   security:
     allOf:
       - clientID: []
       - clientSecret: []
+
 
 
       
@@ -615,21 +686,35 @@ contents: >-
           paylater:
             type: object
             properties:
-              paylater_status:
+              paylater_code:
                 type: integer
                 format: int64
+              paylater_name:
+                type: string
       EMI:
         type: object
         properties:
           emi:
             type: object
             properties:
-              emi_bank_status:
+              payment_method_details:
+                type: object
+                $ref: "#/components/schemas/Card"
+              emi_bank:
+                type: string
+              emi_bank_code:
                 type: integer
                 format: int64
               emi_plan:
                 type: integer
                 format: int64
+              emi_plan_month:
+                type: integer
+                format: int
+              emi_plan_interest:
+                type: integer
+                format: int
+                
       UPI:
         type: object
         properties:
@@ -767,6 +852,6 @@ contents: >-
                   type: string
 created: 1591895631562
 fileName: Imported Workspace
-modified: 1592221695346
+modified: 1592243775868
 parentId: wrk_33367665c2134b58b4ba62ff822e1006
 type: ApiSpec
