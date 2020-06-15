@@ -17,7 +17,7 @@ body:
         "notify_url": "string",
         "payment_modes": "string"
       },
-      "expiry_time": "2020-06-12T09:01:11.695Z",
+      "expiry_time": "2020-06-14T15:43:29.802Z",
       "order_note": "string"
     }
 created: 1591895631850
@@ -34,7 +34,7 @@ headers:
 isPrivate: false
 metaSortKey: -1591895631850
 method: POST
-modified: 1591952472067
+modified: 1592149409863
 name: Add a new order
 parameters: []
 parentId: fld_wrk_33367665c2134b58b4ba62ff822e1006cded0933

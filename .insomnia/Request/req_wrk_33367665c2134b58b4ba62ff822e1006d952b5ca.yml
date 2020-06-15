@@ -13,7 +13,7 @@ headers:
 isPrivate: false
 metaSortKey: -1591938094746
 method: GET
-modified: 1591952471881
+modified: 1592149409826
 name: Get payment details for an id
 parameters: []
 parentId: fld_wrk_33367665c2134b58b4ba62ff822e100644357ae5

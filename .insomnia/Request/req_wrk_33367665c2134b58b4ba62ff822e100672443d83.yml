@@ -1,7 +1,7 @@
-_id: req_wrk_33367665c2134b58b4ba62ff822e10062f5eac9b
+_id: req_wrk_33367665c2134b58b4ba62ff822e100672443d83
 authentication: {}
 body: {}
-created: 1591901170960
+created: 1592135945172
 description: ""
 headers:
   - disabled: false
@@ -11,11 +11,14 @@ headers:
     name: X-client-secret
     value: "{{ xClientSecret }}"
 isPrivate: false
-metaSortKey: -1591901170960
+metaSortKey: -1592135945172
 method: GET
-modified: 1592149409834
-name: Get a refund
-parameters: []
+modified: 1592149409831
+name: Get refunds for an order
+parameters:
+  - disabled: false
+    name: order_id
+    value: undefined
 parentId: fld_wrk_33367665c2134b58b4ba62ff822e1006be32adaa
 settingDisableRenderRequestBody: false
 settingEncodeUrl: true
@@ -24,4 +27,4 @@ settingRebuildPath: true
 settingSendCookies: true
 settingStoreCookies: true
 type: Request
-url: "{{ base_url }}/refunds/{{ refund_id }}"
+url: "{{ base_url }}/refunds/{{ order_id }}"
