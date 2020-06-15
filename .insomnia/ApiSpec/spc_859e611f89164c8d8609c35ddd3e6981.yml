@@ -50,10 +50,10 @@ contents: >-
                 schema:
                   type: object
                   properties:
+                    status: 
+                      $ref: "#/components/schemas/APIStatus"                    
                     code: 
                       $ref: "#/components/schemas/APICode"                    
-                    subCode: 
-                      $ref: "#/components/schemas/APISubcode"                    
                     message:
                       $ref: "#/components/schemas/APIMessage"
                     data:
@@ -82,16 +82,19 @@ contents: >-
                 schema:
                   type: object
                   properties:
+                    status: 
+                      $ref: "#/components/schemas/APIStatus"
                     code: 
                       $ref: "#/components/schemas/APICode"
-                    subCode: 
-                      $ref: "#/components/schemas/APISubcode"
                     message:
                       $ref: "#/components/schemas/APIMessage"
                     data:
-                      oneOf: 
-                        - $ref: "#/components/schemas/Order"
-                        - $ref: "#/components/schemas/PaymentAction"
+                      type: object
+                      properties:
+                        order_url:
+                          type: string               
+                        payment_action:
+                          $ref: "#/components/schemas/PaymentAction"
           "400":
             description: Invalid status value
     /orders/{order_id}/cancel:
@@ -126,10 +129,10 @@ contents: >-
                 schema:
                   type: object
                   properties:
+                    status: 
+                      $ref: "#/components/schemas/APIStatus"
                     code: 
-                      $ref: "#/components/schemas/APICode"
-                    subCode: 
-                      $ref: "#/components/schemas/APISubcode"                    
+                      $ref: "#/components/schemas/APICode"                    
                     message:
                       $ref: "#/components/schemas/APIMessage"
                     data:
@@ -158,10 +161,10 @@ contents: >-
                 schema:
                   type: object
                   properties:
+                    status: 
+                      $ref: "#/components/schemas/APIStatus"
                     code: 
-                      $ref: "#/components/schemas/APICode"
-                    subCode: 
-                      $ref: "#/components/schemas/APISubcode"                    
+                      $ref: "#/components/schemas/APICode"                    
                     message:
                       $ref: "#/components/schemas/APIMessage"
                     data:
@@ -204,10 +207,10 @@ contents: >-
                 schema:
                   type: object
                   properties:
+                    status: 
+                      $ref: "#/components/schemas/APIStatus"
                     code: 
-                      $ref: "#/components/schemas/APICode"
-                    subCode: 
-                      $ref: "#/components/schemas/APISubcode"                    
+                      $ref: "#/components/schemas/APICode"                    
                     message:
                       $ref: "#/components/schemas/APIMessage"
                     data:
@@ -237,10 +240,10 @@ contents: >-
                 schema:
                   type: object
                   properties:
+                    status: 
+                      $ref: "#/components/schemas/APIStatus"
                     code: 
-                      $ref: "#/components/schemas/APICode"
-                    subCode: 
-                      $ref: "#/components/schemas/APISubcode"                    
+                      $ref: "#/components/schemas/APICode"                    
                     message:
                       $ref: "#/components/schemas/APIMessage"
                     data:
@@ -270,10 +273,10 @@ contents: >-
                 schema:
                   type: object
                   properties:
+                    status: 
+                      $ref: "#/components/schemas/APIStatus"
                     code: 
-                      $ref: "#/components/schemas/APICode"
-                    subCode: 
-                      $ref: "#/components/schemas/APISubcode"                    
+                      $ref: "#/components/schemas/APICode"                    
                     message:
                       $ref: "#/components/schemas/APIMessage"
                     data: 
@@ -306,10 +309,10 @@ contents: >-
                 schema:
                   type: object
                   properties:
+                    status: 
+                      $ref: "#/components/schemas/APIStatus"
                     code: 
-                      $ref: "#/components/schemas/APICode"
-                    subCode: 
-                      $ref: "#/components/schemas/APISubcode"                    
+                      $ref: "#/components/schemas/APICode"                    
                     message:
                       $ref: "#/components/schemas/APIMessage"
                     data:
@@ -349,21 +352,25 @@ contents: >-
             description: Invalid status value
 
 
+
              
   externalDocs:
     description: Find out more about Swagger
     url: http://swagger.io
+
 
     
   servers:
     - url: https://test.cahsfree.com/api/v2.1
     - url: https://api.cahsfree.com/v2.1
 
+
     
   security:
     allOf:
       - clientID: []
       - clientSecret: []
+
 
       
   components:
@@ -573,13 +580,19 @@ contents: >-
               card_type:
                 type: string
                 required: false
+              card_country:
+                type: string
+                required: false
+              card_address:
+                type: string
+                required: false              
       Netbanking:
         type: object
         properties:
           netbanking:
             type: object
             properties:
-              bank_code:
+              bank_status:
                 type: integer
                 format: int64
               bank_name:
@@ -591,7 +604,7 @@ contents: >-
           wallet:
             type: object
             properties:
-              wallet_code:
+              wallet_status:
                 type: integer
                 format: int64
               wallet_name:
@@ -602,7 +615,7 @@ contents: >-
           paylater:
             type: object
             properties:
-              paylater_code:
+              paylater_status:
                 type: integer
                 format: int64
       EMI:
@@ -611,7 +624,7 @@ contents: >-
           emi:
             type: object
             properties:
-              emi_bank_code:
+              emi_bank_status:
                 type: integer
                 format: int64
               emi_plan:
@@ -712,59 +725,48 @@ contents: >-
             format: date-time
           refund_note:
             type: string
+      APIStatus:
+        type: string
       APICode:
         type: integer
         format: int64
-       
-      APISubcode:
-        type: integer
-        format: int64
-        default: 200 
-        
+        default: 200  
       APIMessage:
         type: string
         default: "human readable message"
       PaymentAction:
         type: object
         properties:
-          code:
-            type: integer
-            format: int64          
-          detail:
+          url:
             type: string
-          message:
-            type: object
-            properties:
-              url:
-                type: string
-              next_action:
-                type: string
-                enum:
-                   - link
-                   - form
-                   - poll
-                   - image
-              content_type:
-                 type: string
-                 enum:
-                   - application/x-www-form-urlencoded
-                   - application/json
-              method:
-                 type: string
-                 enum:
-                   - get
-                   - post
-              data:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    key_name:
-                      type: string
-                    value_name:
-                      type: string
+          next_action:
+            type: string
+            enum:
+              - link
+              - form
+              - poll
+              - image
+          content_type:
+            type: string
+            enum:
+              - application/x-www-form-urlencoded
+              - application/json
+          method:
+            type: string
+            enum:
+              - get
+              - post
+          data:
+            type: array
+            items:
+              type: object
+              properties:
+                key_name:
+                  type: string
+                value_name:
+                  type: string
 created: 1591895631562
 fileName: Imported Workspace
-modified: 1592149596432
+modified: 1592221695346
 parentId: wrk_33367665c2134b58b4ba62ff822e1006
 type: ApiSpec
