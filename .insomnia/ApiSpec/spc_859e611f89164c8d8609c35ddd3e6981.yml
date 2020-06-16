@@ -516,7 +516,17 @@ contents: >-
             enum: 
               - checkout
               - seamless
-            default: checkout
+            default: checkout          
+          payment_initiation_mode:
+            type: string
+            description: Specify the kind of payment to initiate
+            enum: 
+              - moto
+              - preauth
+              - qrcode
+              - android_upi_link
+              - ios_gpay_link
+              - collect
           payment_method_details:
             oneOf:
               - $ref:  "#/components/schemas/Card"
@@ -572,6 +582,7 @@ contents: >-
               - PENDING_CAPTURE
               - SUCCESSFUL
               - CANCELLED
+              - EXPIRED
               - PROCESSING
               - PENDING_RISK_REVIEW
             default: PENDING_PAYMENT_INFO  
@@ -654,16 +665,14 @@ contents: >-
               card_country:
                 type: string
                 required: false
-              card_address:
-                type: string
-                required: false              
+                
       Netbanking:
         type: object
         properties:
           netbanking:
             type: object
             properties:
-              bank_status:
+              bank_code:
                 type: integer
                 format: int64
               bank_name:
@@ -675,7 +684,7 @@ contents: >-
           wallet:
             type: object
             properties:
-              wallet_status:
+              wallet_code:
                 type: integer
                 format: int64
               wallet_name:
@@ -721,15 +730,20 @@ contents: >-
           upi:
             type: object
             properties:
-              mode:
-                type: string
               vpa:
                 type: string
               linked_phone:
                 type: string
+                
       Customer:
         type: object
         properties:
+          cf_customer_id:
+            type: integer
+            format: int64
+          customer_id:
+            type: string
+            maxLength: 45
           customer_name:
             type: string
           customer_email:
@@ -852,6 +866,6 @@ contents: >-
                   type: string
 created: 1591895631562
 fileName: Imported Workspace
-modified: 1592243775868
+modified: 1592300998241
 parentId: wrk_33367665c2134b58b4ba62ff822e1006
 type: ApiSpec
