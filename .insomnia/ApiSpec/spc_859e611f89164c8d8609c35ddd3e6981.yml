@@ -318,7 +318,7 @@ contents: >-
           "400":
             description: Invalid status value
             
-    /refunds/{order_id}:
+    /refunds?order={order_id}:
       get:
         tags:
           - Refunds
@@ -387,7 +387,7 @@ contents: >-
           "400":
             description: Invalid status value
 
-    /payments/?order={order_id}:
+    /payments?order={order_id}:
       get:
         tags:
           - Payments
@@ -866,6 +866,6 @@ contents: >-
                   type: string
 created: 1591895631562
 fileName: Imported Workspace
-modified: 1592300998241
+modified: 1592302025326
 parentId: wrk_33367665c2134b58b4ba62ff822e1006
 type: ApiSpec
