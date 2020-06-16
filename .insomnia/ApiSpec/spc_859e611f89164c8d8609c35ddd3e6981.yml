@@ -256,15 +256,19 @@ contents: >-
                 properties:
                   order_id:
                     type: string
+                    description: pass in your order_id here
                   refund_id:
                     type: string
+                    description: pass in your refund_id here
                   refund_amount:
                     type: string
                   refund_note:
                     type: string
+                    
                 example: 
-                  order_id: 1234
-                  refund_amount: 10
+                  order_id: o_1234
+                  refund_id: r_89
+                  refund_amount: 100
                   refund_note: Cancelled order
         responses:
           "200":
@@ -866,6 +870,6 @@ contents: >-
                   type: string
 created: 1591895631562
 fileName: Imported Workspace
-modified: 1592302025326
+modified: 1592302182586
 parentId: wrk_33367665c2134b58b4ba62ff822e1006
 type: ApiSpec
