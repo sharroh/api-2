@@ -638,7 +638,27 @@ contents: >-
           settled_amount:
             type: number
             format: decimal
-            
+
+      CardInput:
+        type: object
+        properties:
+          card:
+            type: object
+            properties:
+              card_number:
+                type: string
+                minLength: 13
+                maxLength: 19
+              card_holder_name:
+                type: string
+              card_expiry_mm:
+                type: string
+              card_expiry_yy:
+                type: string
+              card_cvv:
+                type: string
+
+
       Card:
         type: object
         properties:
@@ -669,7 +689,18 @@ contents: >-
               card_country:
                 type: string
                 required: false
-                
+
+      NetbankingInput:
+        type: object
+        properties:
+          netbanking:
+            type: object
+            properties:
+              bank_code:
+                type: integer
+                format: int64
+
+
       Netbanking:
         type: object
         properties:
@@ -693,6 +724,18 @@ contents: >-
                 format: int64
               wallet_name:
                 type: string
+
+      PaylaterInput:
+        type: object
+        properties:
+          paylater:
+            type: object
+            properties:
+              paylater_code:
+                type: integer
+                format: int64
+
+
       Paylater:
         type: object
         properties:
@@ -704,6 +747,31 @@ contents: >-
                 format: int64
               paylater_name:
                 type: string
+                
+      EMIInput:
+        type: object
+        properties:
+          emi:
+            type: object
+            properties:
+              payment_method_details:
+                type: object
+                $ref: "#/components/schemas/CardInput"
+              emi_bank:
+                type: string
+              emi_bank_code:
+                type: integer
+                format: int64
+              emi_plan:
+                type: integer
+                format: int64
+              emi_plan_month:
+                type: integer
+                format: int
+              emi_plan_interest:
+                type: integer
+                format: int
+
       EMI:
         type: object
         properties:
@@ -728,6 +796,18 @@ contents: >-
                 type: integer
                 format: int
                 
+      UPIInput:
+        type: object
+        properties:
+          upi:
+            type: object
+            properties:
+              vpa:
+                type: string
+              linked_phone:
+                type: string
+
+
       UPI:
         type: object
         properties:
@@ -870,6 +950,6 @@ contents: >-
                   type: string
 created: 1591895631562
 fileName: Imported Workspace
-modified: 1592302182586
+modified: 1592565403485
 parentId: wrk_33367665c2134b58b4ba62ff822e1006
 type: ApiSpec
