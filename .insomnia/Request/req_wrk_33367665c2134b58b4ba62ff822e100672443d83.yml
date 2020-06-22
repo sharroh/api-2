@@ -13,7 +13,7 @@ headers:
 isPrivate: false
 metaSortKey: -1592135945172
 method: GET
-modified: 1592149409831
+modified: 1592815269910
 name: Get refunds for an order
 parameters:
   - disabled: false
@@ -27,4 +27,4 @@ settingRebuildPath: true
 settingSendCookies: true
 settingStoreCookies: true
 type: Request
-url: "{{ base_url }}/refunds/{{ order_id }}"
+url: "{{ base_url }}/refunds?order={{ order_id }}"

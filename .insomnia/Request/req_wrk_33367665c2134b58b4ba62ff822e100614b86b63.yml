@@ -4,8 +4,9 @@ body:
   mimeType: application/json
   text: |-
     {
-      "order_id": 1234,
-      "refund_amount": 10,
+      "order_id": "o_1234",
+      "refund_id": "r_89",
+      "refund_amount": 100,
       "refund_note": "Cancelled order"
     }
 created: 1591895631635
@@ -22,7 +23,7 @@ headers:
 isPrivate: false
 metaSortKey: -1591895631636
 method: POST
-modified: 1592149409839
+modified: 1592815269943
 name: Create a refund
 parameters: []
 parentId: fld_wrk_33367665c2134b58b4ba62ff822e1006be32adaa

@@ -1,7 +1,7 @@
-_id: req_wrk_33367665c2134b58b4ba62ff822e1006d952b5ca
+_id: req_wrk_33367665c2134b58b4ba62ff822e100603aea538
 authentication: {}
 body: {}
-created: 1591938094746
+created: 1592815269953
 description: ""
 headers:
   - disabled: false
@@ -11,12 +11,12 @@ headers:
     name: X-client-secret
     value: "{{ xClientSecret }}"
 isPrivate: false
-metaSortKey: -1591938094746
+metaSortKey: -1592815269953
 method: GET
-modified: 1592815269906
-name: Get payment details for an id
+modified: 1592815269953
+name: Get Order
 parameters: []
-parentId: fld_wrk_33367665c2134b58b4ba62ff822e100644357ae5
+parentId: fld_wrk_33367665c2134b58b4ba62ff822e1006cded0933
 settingDisableRenderRequestBody: false
 settingEncodeUrl: true
 settingFollowRedirects: global
@@ -24,4 +24,4 @@ settingRebuildPath: true
 settingSendCookies: true
 settingStoreCookies: true
 type: Request
-url: "{{ base_url }}/payments/{{ payment_id }}"
+url: "{{ base_url }}/orders/{{ order_id }}"

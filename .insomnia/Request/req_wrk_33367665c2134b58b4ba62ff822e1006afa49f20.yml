@@ -13,7 +13,7 @@ headers:
 isPrivate: false
 metaSortKey: -1591938253085
 method: GET
-modified: 1592149409811
+modified: 1592815269843
 name: Get all payments for an order
 parameters:
   - disabled: false
@@ -27,4 +27,4 @@ settingRebuildPath: true
 settingSendCookies: true
 settingStoreCookies: true
 type: Request
-url: "{{ base_url }}/payments/?order={{ order_id }}"
+url: "{{ base_url }}/payments?order={{ order_id }}"
