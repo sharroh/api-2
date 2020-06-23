@@ -1102,6 +1102,12 @@ contents: "openapi: 3.0.0
 
   \          type: string
 
+  \        entity:
+
+  \          type: string
+
+  \          default: \"order\"
+
   \        order_currency:
 
   \          type: string
@@ -1700,6 +1706,12 @@ contents: "openapi: 3.0.0
 
   \          format: int64
 
+  \        entity:
+
+  \          type: string
+
+  \          default: \"payment\"           \ 
+
   \        amount:
 
   \          description: This is the amount for which payment was initiated
@@ -1791,6 +1803,12 @@ contents: "openapi: 3.0.0
   \        refund_id:
 
   \          type: string         \ 
+
+  \        entity:
+
+  \          type: string
+
+  \          default: \"refund\"         \ 
 
   \        order_id:
 
@@ -1898,7 +1916,7 @@ contents: "openapi: 3.0.0
 
   \            - post
 
-  \        data:
+  \        params:
 
   \          type: array
 
@@ -1951,6 +1969,6 @@ contents: "openapi: 3.0.0
   \          "
 created: 1591895631562
 fileName: Imported Workspace
-modified: 1592815819457
+modified: 1592913648919
 parentId: wrk_33367665c2134b58b4ba62ff822e1006
 type: ApiSpec
